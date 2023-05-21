@@ -1,9 +1,10 @@
 var submitButton = document.querySelector(".submit");
 var startButton = document.querySelector(".start");
-var body = document.body;
+var quizContainer = document.querySelector(".quiz");
 var questionEl = document.querySelector(".question");
 var answerEl = document.querySelector(".answer");
 var olEl = document.querySelector('.choices')
+var timerContainer = document.querySelector(".card")
 var index = 0;
 var secondsLeft = 100;
 var timerEl = document.querySelector(".timer-count");
@@ -42,10 +43,10 @@ var questions = [
   },
 ];
 
+// var answers = questions[index].answer
 
 
-
-
+// console.log(typeof questions[index].answer);
 
 
 
@@ -73,39 +74,39 @@ function startQuiz() {
     var skip = document.createElement("br");
     var li = document.createElement("li");
     li.appendChild(skip);
-    li.setAttribute("style", "display: inline-block; color: white; margin: 10px; border: 10px; padding: 10px; background-color: blue; border-radius: 25px")
+    li.setAttribute("style", "list-style-type: numbers; display: inline-block; color: white; margin: 10px; border: 10px; padding: 10px; background-color: blue; border-radius: 25px")
     li.setAttribute("class", "list")
     li.textContent = choiceOption;
-    // var inputEl = document.createElement("input");
-    // li.appendChild(inputEl);
-    // inputEl.setAttribute("type", "radio");
-    // inputEl.setAttribute("name", "option");
-    // inputEl.setAttribute("value", choiceOption);
-
     olEl.appendChild(li);
-
-
-    console.log(index);
-
-
 
   };
 
   var elements = document.querySelectorAll(".list");
 
   elements.forEach(function (element) {
-    element.addEventListener("click", function(event) {
-      // Event functionality
-      console.log("Clicked on an element!");
-      // Add your code here to handle the event
+    element.addEventListener("click", function (event) {
+
+
+      if (event.target.textContent === questions[index].answer) {
+        console.log("Correct");
+      }
+      else {
+        console.log("Incorrect");
+        secondsLeft-=10;
+      };
+
       if (index < 4) {
         index++;
         olEl.textContent = "";
         startQuiz();
-        console.log(event.target)
+        console.log(event.target.textContent)
       }
       else {
-        console.log("Hellow");
+        console.log("End of quiz");
+        quizContainer.textContent = "";
+        timerContainer.textContent = "";
+
+
       };
 
     });
@@ -118,22 +119,23 @@ function startQuiz() {
 
 
 
-
-
-
-
-
-
-
-
-
-
 startButton.addEventListener("click", function () {
   this.setAttribute("style", "display: none");
   startQuiz();
   setTime();
 
 });
+
+
+
+
+
+
+
+
+
+
+
 
 
 
