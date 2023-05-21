@@ -3,7 +3,7 @@ var startButton = document.querySelector(".start");
 var body = document.body;
 var questionEl = document.querySelector(".question");
 var answerEl = document.querySelector(".answer");
-var ulEl = document.querySelector('.choices')
+var olEl = document.querySelector('.choices')
 var index = 0;
 var secondsLeft = 100;
 var timerEl = document.querySelector(".timer-count");
@@ -50,11 +50,11 @@ var questions = [
 
 
 function setTime() {
-  var timerInterval = setInterval(function() {
+  var timerInterval = setInterval(function () {
     secondsLeft--;
     timerEl.textContent = secondsLeft;
-    if(secondsLeft === 0) {
-      
+    if (secondsLeft === 0) {
+
       clearInterval(timerInterval);
     }
 
@@ -70,37 +70,50 @@ function startQuiz() {
   for (var i = 0; i < currentQuestion.choices.length; i++) {
 
     var choiceOption = currentQuestion.choices[i];
+    var skip = document.createElement("br");
     var li = document.createElement("li");
-    li.setAttribute("style", "list-style: none; color: red; padding: 10px")
+    li.appendChild(skip);
+    li.setAttribute("style", "display: inline-block; color: white; margin: 10px; border: 10px; padding: 10px; background-color: blue; border-radius: 25px")
+    li.setAttribute("class", "list")
     li.textContent = choiceOption;
-    var inputEl = document.createElement("input");
-    li.appendChild(inputEl);
-    inputEl.setAttribute("type", "radio");
-    inputEl.setAttribute("name", "option");
-    inputEl.setAttribute("value", choiceOption);
-    
-    ulEl.appendChild(li);
+    // var inputEl = document.createElement("input");
+    // li.appendChild(inputEl);
+    // inputEl.setAttribute("type", "radio");
+    // inputEl.setAttribute("name", "option");
+    // inputEl.setAttribute("value", choiceOption);
 
-    
+    olEl.appendChild(li);
+
+
     console.log(index);
+
+
 
   };
 
-  
+  var elements = document.querySelectorAll(".list");
+
+  elements.forEach(function (element) {
+    element.addEventListener("click", function(event) {
+      // Event functionality
+      console.log("Clicked on an element!");
+      // Add your code here to handle the event
+      if (index < 4) {
+        index++;
+        olEl.textContent = "";
+        startQuiz();
+        console.log(event.target)
+      }
+      else {
+        console.log("Hellow");
+      };
+
+    });
+  });
+
 
 };
 
-submitButton.addEventListener("click", function() {
-  if(index < 4) {
-    index++;
-    ulEl.textContent = "";
-   startQuiz();
-  }
-   else {
-   console.log("Hellow");
-   };
-   
-});
 
 
 
@@ -108,7 +121,8 @@ submitButton.addEventListener("click", function() {
 
 
 
-  
+
+
 
 
 
@@ -118,7 +132,7 @@ startButton.addEventListener("click", function () {
   this.setAttribute("style", "display: none");
   startQuiz();
   setTime();
-  
+
 });
 
 
