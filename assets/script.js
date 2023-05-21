@@ -1,8 +1,12 @@
+var submitButton = document.querySelector(".submit");
 var startButton = document.querySelector(".start");
 var body = document.body;
 var questionEl = document.querySelector(".question");
 var answerEl = document.querySelector(".answer");
-var listEl = document.querySelector('.choices')
+var ulEl = document.querySelector('.choices')
+var index = 0;
+var secondsLeft = 100;
+var timerEl = document.querySelector(".timer-count");
 var questions = [
   {
     title: 'Commonly used data types DO NOT include:',
@@ -37,20 +41,37 @@ var questions = [
     answer: 'console.log',
   },
 ];
-var currentQuestion = questions[0]
 
+
+
+
+
+
+
+
+function setTime() {
+  var timerInterval = setInterval(function() {
+    secondsLeft--;
+    timerEl.textContent = secondsLeft;
+    if(secondsLeft === 0) {
+      
+      clearInterval(timerInterval);
+    }
+
+  }, 1000);
+};
 
 
 function startQuiz() {
-
+  var li = document.createElement("li");
+  var currentQuestion = questions[index];
   questionEl.textContent = currentQuestion.title;
 
   for (var i = 0; i < currentQuestion.choices.length; i++) {
 
     var choiceOption = currentQuestion.choices[i];
-
     var li = document.createElement("li");
-    li.setAttribute("style", "list-style: none")
+    li.setAttribute("style", "list-style: none; color: red; padding: 10px")
     li.textContent = choiceOption;
     var inputEl = document.createElement("input");
     li.appendChild(inputEl);
@@ -58,14 +79,47 @@ function startQuiz() {
     inputEl.setAttribute("name", "option");
     inputEl.setAttribute("value", choiceOption);
     
-    listEl.appendChild(li);
+    ulEl.appendChild(li);
+
+    
+    console.log(index);
 
   };
 
+  
+
 };
 
-startButton.addEventListener("click", function () {
-  this.setAttribute("style", "display: none")
-  startQuiz()
+submitButton.addEventListener("click", function() {
+  if(index < 4) {
+    index++;
+    ulEl.textContent = "";
+   startQuiz();
+  }
+   else {
+   console.log("Hellow");
+   };
+   
 });
+
+
+
+
+
+
+
+  
+
+
+
+
+
+startButton.addEventListener("click", function () {
+  this.setAttribute("style", "display: none");
+  startQuiz();
+  setTime();
+  
+});
+
+
 

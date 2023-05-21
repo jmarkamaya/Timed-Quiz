@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,29 +8,37 @@
     <link rel="stylesheet" href="./assets/style.css">
     <title>Timed Quiz</title>
 </head>
-<body>     
-    
+
+<body>
+
     <header>
         <h1 class="title" style="text-align: center;">Timed Quiz</h1>
     </header>
-    
+
     <main>
-        <div style="text-align: center;">
-        <button class="start">
-            <strong>Start Quiz</strong>
-        </button>
-    </div>
-        <div class="quiz">
-            <div class="question" style="text-align: center;"></div>
-             
-                <ul class="choices" style="text-align: center;"></ul>
+        <div class= "card timer">
+            <div class = "timer-text">
+            <h3>seconds remaining</h3>
+            <div class="large-font timer-count">100</div>
             
-            <div class="answer" style="text-align: center;"></div>
+          </div>
         </div>
+        <div style="text-align: center;">
+            <button class="start">
+                <strong>Start Quiz</strong>
+            </button>
+        </div>
+        <div class="quiz" style="text-align: center;">
+            <div class="question"></div>
+            <ul class="choices"></ul>
+            <div class="answer"></div>
+        </div>
+        <button class="submit">hhhh</button>
     </main>
 
-    
+
 
     <script src="./assets/script.js"></script>
 </body>
+
 </html>
