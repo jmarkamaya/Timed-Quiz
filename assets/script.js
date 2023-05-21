@@ -3,11 +3,18 @@ var startButton = document.querySelector(".start");
 var quizContainer = document.querySelector(".quiz");
 var questionEl = document.querySelector(".question");
 var answerEl = document.querySelector(".answer");
-var olEl = document.querySelector('.choices')
+var olEl = document.querySelector('.choices');
+var resultEl = document.querySelector('.result');
+// var correctEl = document.querySelector('.correct');
+// var incorrectEl = document.querySelector('.incorrect');
+var scoreEl = document.querySelector('.score');
+var scoreTotal = 0
+
 var timerContainer = document.querySelector(".card")
 var index = 0;
 var secondsLeft = 45;
 var timerEl = document.querySelector(".timer-count");
+var overEl = document.querySelector('.over')
 var questions = [
   {
     title: 'Commonly used data types DO NOT include:',
@@ -45,21 +52,20 @@ var questions = [
 
 function endQuiz() {
 
-
-  console.log("End of quiz")
+console.log("Quiz Over");
 quizContainer.textContent = "";
 timerContainer.textContent = "";
-
+overEl.textContent = "Quiz Over!";
+setScore();
 
 }
-
 
 
 function setTime() {
   var timerInterval = setInterval(function () {
     secondsLeft--;
     timerEl.textContent = secondsLeft;
-    if (secondsLeft === 0) {
+    if (secondsLeft < 0) {
 
       clearInterval(timerInterval);
       endQuiz()
@@ -96,11 +102,14 @@ function startQuiz() {
 
 
       if (event.target.textContent === questions[index].answer) {
-        console.log("Correct");
+        resultEl.textContent = "Correct"
+        scoreTotal++;
       }
       else {
-        console.log("Incorrect");
+        resultEl.textContent = "Incorrect";
+        scoreTotal--;
         secondsLeft -= 10;
+        
       };
 
       if (index < 4) {
@@ -111,7 +120,6 @@ function startQuiz() {
         
       }
       else {
-        console.log("End of quiz");
         endQuiz()
         
       };
@@ -123,9 +131,16 @@ function startQuiz() {
 
 };
 
+function setScore() {
+  if (scoreTotal <= 0){
+    scoreTotal= 0
+  }
+  
+  scoreEl.textContent = "Final Score: " + scoreTotal;
+  localStorage.setItem("score",scoreTotal);
 
 
-
+};
 
 
 startButton.addEventListener("click", function () {
