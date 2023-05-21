@@ -6,7 +6,7 @@ var answerEl = document.querySelector(".answer");
 var olEl = document.querySelector('.choices')
 var timerContainer = document.querySelector(".card")
 var index = 0;
-var secondsLeft = 100;
+var secondsLeft = 45;
 var timerEl = document.querySelector(".timer-count");
 var questions = [
   {
@@ -43,10 +43,15 @@ var questions = [
   },
 ];
 
-// var answers = questions[index].answer
+function endQuiz() {
 
 
-// console.log(typeof questions[index].answer);
+  console.log("End of quiz")
+quizContainer.textContent = "";
+timerContainer.textContent = "";
+
+
+}
 
 
 
@@ -57,6 +62,7 @@ function setTime() {
     if (secondsLeft === 0) {
 
       clearInterval(timerInterval);
+      endQuiz()
     }
 
   }, 1000);
@@ -64,6 +70,8 @@ function setTime() {
 
 
 function startQuiz() {
+
+  
   var li = document.createElement("li");
   var currentQuestion = questions[index];
   questionEl.textContent = currentQuestion.title;
@@ -92,7 +100,7 @@ function startQuiz() {
       }
       else {
         console.log("Incorrect");
-        secondsLeft-=10;
+        secondsLeft -= 10;
       };
 
       if (index < 4) {
@@ -100,20 +108,21 @@ function startQuiz() {
         olEl.textContent = "";
         startQuiz();
         console.log(event.target.textContent)
+        
       }
       else {
         console.log("End of quiz");
-        quizContainer.textContent = "";
-        timerContainer.textContent = "";
-
-
+        endQuiz()
+        
       };
+     
 
     });
   });
 
 
 };
+
 
 
 
