@@ -1,6 +1,9 @@
 .h1 {
     color: blue;
 }
+.high-score {
+    font-size: larger;
+}
 
 .question {
     font-size: 25px;
