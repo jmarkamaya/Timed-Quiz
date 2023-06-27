@@ -18,6 +18,9 @@ var overEl = document.querySelector('.over')
 
 var submitButton = document.getElementById('submitButton');
 
+
+var highScores = JSON.parse(window.localStorage.getItem("highScores")) || []; 
+
 var questions = [
   {
     title: 'Commonly used data types DO NOT include:',
@@ -54,9 +57,8 @@ var questions = [
 ];
 
 function init() {
-  getScoreInput();
-
-}
+  showScore();
+ }
 
 function endQuiz() {
 
@@ -64,7 +66,8 @@ console.log("Quiz Over");
 quizContainer.textContent = "";
 timerContainer.textContent = "";
 overEl.textContent = "Quiz Over!";
-setScore()
+// setScore()
+scoreEl.textContent = "Final Score: " + scoreTotal; 
 
 }
 
@@ -86,8 +89,7 @@ function setTime() {
 
 function startQuiz() {
 
- 
-
+//  showScore();
   var li = document.createElement("li");
   var currentQuestion = questions[index];
   questionEl.textContent = currentQuestion.title;
@@ -112,19 +114,21 @@ function startQuiz() {
 
 
       if (event.target.textContent === questions[index].answer) {
-        resultEl.textContent = "Correct"
+        resultEl.textContent = "Correct!"
+        resultEl.setAttribute("style", "color: green; font-size: 25px;")
         scoreTotal++;
       }
       else {
-        resultEl.textContent = "Incorrect";
+        resultEl.textContent = "Incorrect!";
+        resultEl.setAttribute("style", "color: red; font-size: 25px;")
         secondsLeft -= 10;
       };
 
-      if (index < 4) {
+      if (index < questions.length - 1) {
         index++;
         olEl.textContent = "";
         startQuiz();
-        console.log(event.target.textContent)
+        //console.log(event.target.textContent)
         
       }
       else {
@@ -144,35 +148,39 @@ function startQuiz() {
 
 
 
+//would I need to do a .push? to have multiple scores scored. like an object with an array inside?
+// so i would want to creat an object and then push the username and scores to that object? 
+//so create an object in local storage and then push the inputs to it?
+// then take the last 5 objects in that array and and push it to the dom?
+//for each to add each new item to the array?
 
-function setScore() {
-  scoreEl.textContent = "Final Score: " + scoreTotal;
-  localStorage.setItem("score",scoreTotal);
-};
-function setInput() {
-  var inputField = document.getElementById('myInput');
+
+function setScore() {  
+var inputField = document.getElementById('myInput');
 var enteredValue = inputField.value;
-localStorage.setItem("inputValue",enteredValue);
-  console.log(enteredValue);
-}
+var scoreObject = enteredValue + ": " + scoreTotal;
+highScores.push(scoreObject);
+localStorage.setItem("highScores", JSON.stringify(highScores));
+};
 
-function getScoreInput() {
-  
-  var storedScore = localStorage.getItem("score");
-  var storedInput = localStorage.getItem("inputValue");
+
+function showScore() {
+
+var storedScores = JSON.parse(localStorage.getItem("highScores"));
+
+  for (var i = 0; i < storedScores.length; i++) {      // how to get the last 5? if i just do if i < 5 it will always show the same first 5 scores unless i refresh local storage.
 
   var liEl = document.createElement("li");
-  liEl.textContent = storedInput + ": " + storedScore
-  previousScore.appendChild(liEl)
-
-}
+  liEl.textContent = storedScores[i];
+  previousScore.appendChild(liEl);
+  };
+};
 
 
 submitButton.addEventListener('click', function() {
-  // Perform further actions with the entered value
-  setInput();
-  getScoreInput();
-  
+  setScore();
+  // showScore();
+  window.location.reload();
 });
 
 
@@ -180,12 +188,11 @@ submitButton.addEventListener('click', function() {
   this.setAttribute("style", "display: none");
   startQuiz();
   setTime();
-
 });
 
-playAgain.addEventListener("click", function(){
-  window.location.reload();
-});
+// playAgain.addEventListener("click", function(){
+//   window.location.reload();
+// });
 
 init()
 
@@ -193,7 +200,10 @@ init()
 
 
 
-
+// create logic so you can only submit score once for each game. and page refreshes
+// also so score can only be submitted if name is enter in input value
+// add event listner on previous scores that hides and unhides list of scores, make previous scores a button?
+// add hover for click events
 
 
 
